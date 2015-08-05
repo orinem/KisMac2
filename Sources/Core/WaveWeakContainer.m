@@ -72,12 +72,14 @@
     
     if ((_data[iv[2]])[iv[1]] == NULL)
 	{
-		(_data[iv[2]])[iv[1]] = malloc(3*sizeof(UInt8)*LAST_BIT);
+#ifndef __clang_analyzer__
+        (_data[iv[2]])[iv[1]] = malloc(3*sizeof(UInt8)*LAST_BIT);
 		if ((_data[iv[2]])[iv[1]] == NULL) {
 			DBNSLog(@"malloc failed");
 			return;
 		}
         memset((_data[iv[2]])[iv[1]], 0, 3*sizeof(UInt8)*LAST_BIT);
+#endif
     }
     
     d = &((_data[iv[2]])[iv[1]])[iv[0] * 3];
