@@ -179,7 +179,7 @@ bool is8021xPacket(const UInt8* fileData) {
 
     // Check IEEE80211 Version
 	if ((hdr1->frame_ctl & IEEE80211_VERSION_MASK) != IEEE80211_VERSION_0) {
-		DBNSLog(@"Packet with illegal 802.11 version captured.\n");
+		DBNSLog(@"Packet with illegal 802.11 version captured (frame_ctl=0x%04X).\n", hdr1->frame_ctl);
 		return NO;
 	}
 	
