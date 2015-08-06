@@ -33,6 +33,9 @@
 #import "../Core/80211b.h"
 #import <pcap.h>
 #import <CoreWLAN/CoreWLAN.h>
+#import "FCS.h"
+
+static uint32_t checksumErrors = 0;
 
 //stolen from kismet
 // Hack around some headers that don't seem to define all of these
@@ -520,20 +523,34 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 break;
             case DLT_IEEE802_11_RADIO_AVS:
                 dataLen = header.caplen - sizeof(avs_80211_1_header);
-                //dataLen -= 4;       // Skip fcs?
-                if (dataLen <= 0)
+                const u_char *frame = data + sizeof(avs_80211_1_header);
+                
+                if (dataLen <= 4)
                     continue;
+                
+                //dataLen -= 4;       // Skip fcs?
+                uint32_t crcReceived;
+                memcpy(&crcReceived, &frame[dataLen - 4], 4);
+                uint32_t crc = CRC32_block(frame, dataLen-4, 0xFFFFFFFF);
+                crc ^= 0xFFFFFFFF;
+                
+                if ( crc != crcReceived ) {
+                    if ( ++checksumErrors % 1000 == 0 )
+                        DBNSLog(@"%u packets with bad checksum (this packet: 0x%08X received, 0x%08X calculated).\n", checksumErrors, crcReceived, crc);
+                    
+                    continue;
+                }
                
                 if(dataLen <= MAX_FRAME_BYTES)
                 {
-                    memcpy(f->data, data + sizeof(avs_80211_1_header), dataLen);
+                    memcpy(f->data, frame, dataLen);
                 }
                 else
                 {
                     //this is probaby a garbage frame.  We should consider 
                     //skipping it but for now we just copy as much as we can 
                     //instead of crashing. todo fixme!!
-                    memcpy(f->data, data + sizeof(avs_80211_1_header), MAX_FRAME_BYTES);
+                    memcpy(f->data, frame, MAX_FRAME_BYTES);
                 }
                 
                 af = (avs_80211_1_header*)data;
