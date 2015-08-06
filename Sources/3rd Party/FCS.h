@@ -12,6 +12,7 @@ extern "C" {
 	#endif
 	
 	uint32_t UPDC32(uint32_t octet, uint32_t crc);
+    uint32_t CRC32_block(const uint8_t *p, size_t n, uint32_t crc);
 	
 	#ifdef __cplusplus
 	}
