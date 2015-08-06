@@ -11,7 +11,7 @@
 extern "C" {
 	#endif
 	
-	unsigned long UPDC32(unsigned long octet, unsigned long crc);
+	uint32_t UPDC32(uint32_t octet, uint32_t crc);
 	
 	#ifdef __cplusplus
 	}

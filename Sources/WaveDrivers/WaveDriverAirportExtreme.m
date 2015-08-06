@@ -520,7 +520,7 @@ static u_int ieee80211_mhz2ieee(u_int freq, u_int flags) {
                 break;
             case DLT_IEEE802_11_RADIO_AVS:
                 dataLen = header.caplen - sizeof(avs_80211_1_header);
-                dataLen -= 4;       // Skip fcs?
+                //dataLen -= 4;       // Skip fcs?
                 if (dataLen <= 0)
                     continue;
                

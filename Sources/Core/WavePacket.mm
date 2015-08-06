@@ -30,9 +30,11 @@
 #import "WaveHelper.h"
 #import "80211b.h"
 #import "KisMAC80211.h"
+#import "FCS.h"
 #import <pcap.h>
 
 #define AMOD(x, y) ((x) % (y) < 0 ? ((x) % (y)) + (y) : (x) % (y))
+static uint32_t checksumErrors = 0;
 
 bool is8021xPacket(const UInt8* fileData) {
     if (fileData[0] == 0xAA &&
@@ -177,13 +179,6 @@ bool is8021xPacket(const UInt8* fileData) {
     assoc_req = (struct ieee80211_assoc_request *)(f->data);
     reassoc_req = (struct ieee80211_reassoc_request *)(f->data);
 
-    // Check IEEE80211 Version
-	if ((hdr1->frame_ctl & IEEE80211_VERSION_MASK) != IEEE80211_VERSION_0) {
-		DBNSLog(@"Packet with illegal 802.11 version captured (frame_ctl=0x%04X).\n", hdr1->frame_ctl);
-		return NO;
-	}
-	
-
     _netType = networkTypeUnknown;
     _isWep = encryptionTypeUnknown;
     _isEAP = NO;
@@ -192,6 +187,28 @@ bool is8021xPacket(const UInt8* fileData) {
     // Set frame pointer and length
     _length = f->ctrl.len;
     _frame = (UInt8*)(f->data);
+    
+    uint32_t crcReceived;
+    memcpy(&crcReceived, &_frame[_length-4], 4);
+    uint32_t crc = 0xFFFFFFFF;
+    for ( int i = 0; i < _length-4; ++i )
+    {
+        crc = UPDC32(_frame[i], crc);
+    }
+    crc ^= 0xFFFFFFFF;
+    
+    if ( crc != crcReceived ) {
+        if ( ++checksumErrors % 1000 == 0 )
+            DBNSLog(@"%u packets with bad checksum (this packet: 0x%08X received, 0x%08X calculated).\n", checksumErrors, crcReceived, crc);
+            
+        return NO;
+    }
+    
+    // Check IEEE80211 Version
+    if ((hdr1->frame_ctl & IEEE80211_VERSION_MASK) != IEEE80211_VERSION_0) {
+        DBNSLog(@"Packet with illegal 802.11 version captured (frame_ctl=0x%04X).\n", hdr1->frame_ctl);
+        return NO;
+    }
     
     // Initialize payload pointer and length
     _payload = NULL;

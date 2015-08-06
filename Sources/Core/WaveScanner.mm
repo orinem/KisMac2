@@ -264,7 +264,8 @@
                         {
                             [_wavePcapDumper gotPacket:w fromDriver:wd];
                         }
-                        DBNSLog(@"WaveScanner: Unknown packet type in parseFrame");
+                        // parseFrame can report its own failures...
+                        //DBNSLog(@"WaveScanner: Unknown packet type in parseFrame");
                     }
                 }
             }

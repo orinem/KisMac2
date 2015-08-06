@@ -184,7 +184,8 @@
     @synchronized(self) {
         if (!_ID) {
             _ID=[w stringReceiverID];
-            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] || 
+#if 0
+            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] ||
                 [_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
                 [_ID isEqualToString:@"00:12:D9:B3:1D:40"])
             {
@@ -193,6 +194,7 @@
                 [WaveHelper speakSentence:(__bridge CFStringRef)(speachText) withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
                 NSBeep(); NSBeep(); NSBeep();
             }
+#endif
         }
 
         _receivedBytes+=[w length];
@@ -212,7 +214,8 @@
     @synchronized(self) {
         if (!_ID) {
             _ID=[w stringSenderID];
-            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] || 
+#if 0
+            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] ||
                 [_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
                 [_ID isEqualToString:@"00:12:D9:B3:1D:40"])
             {
@@ -221,6 +224,7 @@
                 [WaveHelper speakSentence:(__bridge CFStringRef)(speachText) withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
                 NSBeep(); NSBeep(); NSBeep();
             }
+#endif
         }
         _date = [NSDate date];
         
@@ -240,8 +244,8 @@
 #pragma mark -
 
 - (NSString *)ID {
+    if (!_ID) return NSLocalizedString(@"<unknown>", "unknown client ID");
     @synchronized(self) {
-        if (!_ID) return NSLocalizedString(@"<unknown>", "unknown client ID");
         return _ID;
     }
 }
@@ -266,15 +270,17 @@
     // This method crashed in stringWithFormat when another thread released _date,
     // hence the liberal scattering of @synchronized(self) around access
     // to member variables that are subject the whims of ARC.
+    if (_date==nil) return @"";
+
     @synchronized(self) {
-        if (_date==nil) return @"";
-        else return [NSString stringWithFormat:@"%@", _date]; //return [_date descriptionWithCalendarFormat:@"%H:%M %d-%m-%y" timeZone:nil locale:nil];
+        return [NSString stringWithFormat:@"%@", _date]; //return [_date descriptionWithCalendarFormat:@"%H:%M %d-%m-%y" timeZone:nil locale:nil];
     }
 }
 
 - (NSString *)getIPAddress {
+    if (_IPAddress == nil) return @"unknown";
+
     @synchronized(self) {
-        if (_IPAddress == nil) return @"unknown";
         return _IPAddress;
     }
 }
@@ -290,6 +296,8 @@
 }
 
 - (int)curSignal {
+    if (_date==nil) return 0;
+
     @synchronized(self) {
         if ([_date compare:[NSDate dateWithTimeIntervalSinceNow:0.5]]==NSOrderedDescending) _curSignal=0;
         return _curSignal;
@@ -329,15 +337,16 @@
     int     ID32[6];
     int i;
     
+    if (!_ID) return nil;
+
     @synchronized(self) {
-        if (!_ID) return nil;
-    
         if (sscanf([_ID UTF8String], "%2X:%2X:%2X:%2X:%2X:%2X", &ID32[0], &ID32[1], &ID32[2], &ID32[3], &ID32[4], &ID32[5]) != 6) return nil;
-        for (i = 0; i < 6; ++i)
-            ID8[i] = ID32[i];
-    
-        return [NSData dataWithBytes:ID8 length:6];
     }
+    
+    for (i = 0; i < 6; ++i)
+        ID8[i] = ID32[i];
+    
+    return [NSData dataWithBytes:ID8 length:6];
 }
 
 - (BOOL) eapolDataAvailable {
