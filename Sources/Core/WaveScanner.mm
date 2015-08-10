@@ -295,7 +295,7 @@
         }
         
         [w stopCapture];
-        [self stopScanning]; //just to make sure the user can start the thread if it crashed
+//        [self stopScanning]; //just to make sure the user can start the thread if it crashed
     }
 }
 
@@ -304,21 +304,19 @@
     if (!_scanning) //we are already scanning
     {
         _scanning = YES;
-        dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-            _drivers = [WaveHelper getWaveDrivers];
-            
-            WaveDriver *w;
-            for (NSUInteger i = 0; i < [_drivers count]; ++i)
-            {
-                w = _drivers[i];
+        _drivers = [WaveHelper getWaveDrivers];
+        
+        for (NSUInteger i = 0; i < [_drivers count]; ++i)
+        {
+            WaveDriver *w = _drivers[i];
+            dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
                 if ([w type] == passiveDriver)
                 { //for PseudoJack this is done by the timer
                     [w startCapture:0];
                 }
                 [self doScan:w];
-            }
+            });
         }
-                       );
         
         _scanTimer = [NSTimer scheduledTimerWithTimeInterval:_scanInterval
                                                       target:self

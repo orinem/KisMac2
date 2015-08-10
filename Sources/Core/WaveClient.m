@@ -184,8 +184,7 @@
     @synchronized(self) {
         if (!_ID) {
             _ID=[w stringReceiverID];
-#if 0
-            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] ||
+            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] || 
                 [_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
                 [_ID isEqualToString:@"00:12:D9:B3:1D:40"])
             {
@@ -194,7 +193,6 @@
                 [WaveHelper speakSentence:(__bridge CFStringRef)(speachText) withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
                 NSBeep(); NSBeep(); NSBeep();
             }
-#endif
         }
 
         _receivedBytes+=[w length];
@@ -214,8 +212,7 @@
     @synchronized(self) {
         if (!_ID) {
             _ID=[w stringSenderID];
-#if 0
-            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] ||
+            if ([_ID isEqualToString:@"00:0F:F7:C8:7A:60"] || [_ID isEqualToString:@"00:11:20:EE:CE:48"] || 
                 [_ID isEqualToString:@"00:12:D9:B3:16:C0"] || [_ID isEqualToString:@"00:12:D9:B3:18:90"] ||
                 [_ID isEqualToString:@"00:12:D9:B3:1D:40"])
             {
@@ -224,7 +221,6 @@
                 [WaveHelper speakSentence:(__bridge CFStringRef)(speachText) withVoice:[[NSUserDefaults standardUserDefaults] integerForKey:@"Voice"]];
                 NSBeep(); NSBeep(); NSBeep();
             }
-#endif
         }
         _date = [NSDate date];
         
@@ -245,6 +241,10 @@
 
 - (NSString *)ID {
     if (!_ID) return NSLocalizedString(@"<unknown>", "unknown client ID");
+    
+    // Examination of the compiler output reveals that @synchronized(self)
+    // really is needed due to ARC adding [[_ID retain] autorelease]
+    // behind the scenes.  The same applies to all access to all members that are objects.
     @synchronized(self) {
         return _ID;
     }
@@ -296,16 +296,16 @@
 }
 
 - (int)curSignal {
-    if (_date==nil) return 0;
-
     @synchronized(self) {
         if ([_date compare:[NSDate dateWithTimeIntervalSinceNow:0.5]]==NSOrderedDescending) _curSignal=0;
-        return _curSignal;
     }
+    return _curSignal;
 }
 
 - (NSDate *)rawDate {
-    return _date;
+    @synchronized(self) {
+        return _date;
+    }
 }
 
 #pragma mark -
@@ -313,19 +313,27 @@
 #pragma mark -
 
 - (NSData *)sNonce {
-    return _sNonce;
+    @synchronized(self) {
+        return _sNonce;
+    }
 }
 
 - (NSData *)aNonce {
-    return _aNonce;
+    @synchronized(self) {
+        return _aNonce;
+    }
 }
 
 - (NSData *)eapolMIC {
-    return _MIC;
+    @synchronized(self) {
+        return _MIC;
+    }
 }
 
 - (NSData *)eapolPacket {
-    return _packet;
+    @synchronized(self) {
+        return _packet;
+    }
 }
 
 - (int)wpaKeyCipher {
@@ -340,6 +348,7 @@
     if (!_ID) return nil;
 
     @synchronized(self) {
+    
         if (sscanf([_ID UTF8String], "%2X:%2X:%2X:%2X:%2X:%2X", &ID32[0], &ID32[1], &ID32[2], &ID32[3], &ID32[4], &ID32[5]) != 6) return nil;
     }
     
@@ -359,10 +368,14 @@
 #pragma mark -
 
 - (NSData *)leapChallenge {
-    return _leapChallenge;
+    @synchronized(self) {
+        return _leapChallenge;
+    }
 }
 - (NSData *)leapResponse {
-    return _leapResponse;
+    @synchronized(self) {
+        return _leapResponse;
+    }
 }
 - (NSString *)leapUsername {
     return _leapUsername;

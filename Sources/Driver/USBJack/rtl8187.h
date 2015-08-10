@@ -22,7 +22,6 @@
  */
 
 
-
 // all fields are little-endian
 
 #ifndef RTL8187_H
@@ -92,13 +91,10 @@ struct rtl8187_priv {
     
 	/* rtl8187 specific */
 	struct ieee80211_channel channels[14];
-//	struct ieee80211_rate rates[12];
-//	struct ieee80211_hw_mode modes[2];
     IOUSBInterfaceInterface220**   _interface;
 	UInt32 rx_conf;
 	UInt16 txpwr_base;
 	UInt8 asic_rev;
-//	struct sk_buff_head rx_queue;
 };
 
 static const struct ieee80211_channel rtl818x_channels[] = {
@@ -128,7 +124,8 @@ public:
     bool setChannel(UInt16 channel);
     bool startCapture(UInt16 channel);    
     bool getAllowedChannels(UInt16* channels);
-    bool _massagePacket(void *inBuf, void *outBuf, UInt16 len);
+    bool _massagePacket(void *inBuf, void *outBuf, UInt16 len, UInt16 channel);
+    void _rawFrameReceived(unsigned int len);
     bool stopCapture();
     
     int         WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate);

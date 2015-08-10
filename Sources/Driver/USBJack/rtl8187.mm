@@ -51,6 +51,7 @@ static const UInt16 rtl8225bcd_rxgain[] = {
 	0x07aa, 0x07ab, 0x07ac, 0x07ad, 0x07b0, 0x07b1, 0x07b2, 0x07b3,
 	0x07b4, 0x07b5, 0x07b8, 0x07b9, 0x07ba, 0x07bb, 0x07bb
 };
+
 static const UInt8 rtl8225_agc[] = {
 	0x9e, 0x9e, 0x9e, 0x9e, 0x9e, 0x9e, 0x9e, 0x9e,
 	0x9d, 0x9c, 0x9b, 0x9a, 0x99, 0x98, 0x97, 0x96,
@@ -69,6 +70,7 @@ static const UInt8 rtl8225_agc[] = {
 	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01,
 	0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01, 0x01
 };
+
 static const UInt8 rtl8225_gain[] = {
 	0x23, 0x88, 0x7c, 0xa5,	/* -82dBm */
 	0x23, 0x88, 0x7c, 0xb5,	/* -82dBm */
@@ -78,12 +80,15 @@ static const UInt8 rtl8225_gain[] = {
 	0x53, 0x60, 0x73, 0xc5,	/* -70dBm */
 	0x63, 0x58, 0x70, 0xc5,	/* -66dBm */
 };
+
 static const UInt8 rtl8225_threshold[] = {
 	0x8d, 0x8d, 0x8d, 0x8d, 0x9d, 0xad, 0xbd
 };
+
 static const UInt8 rtl8225_tx_gain_cck_ofdm[] = {
 	0x02, 0x06, 0x0e, 0x1e, 0x3e, 0x7e
 };
+
 static const UInt8 rtl8225_tx_power_cck[] = {
 	0x18, 0x17, 0x15, 0x11, 0x0c, 0x08, 0x04, 0x02,
 	0x1b, 0x1a, 0x17, 0x13, 0x0e, 0x09, 0x04, 0x02,
@@ -92,6 +97,7 @@ static const UInt8 rtl8225_tx_power_cck[] = {
 	0x26, 0x25, 0x21, 0x1b, 0x14, 0x0d, 0x06, 0x03,
 	0x2b, 0x2a, 0x25, 0x1e, 0x16, 0x0e, 0x07, 0x03
 };
+
 static const UInt8 rtl8225_tx_power_cck_ch14[] = {
 	0x18, 0x17, 0x15, 0x0c, 0x00, 0x00, 0x00, 0x00,
 	0x1b, 0x1a, 0x17, 0x0e, 0x00, 0x00, 0x00, 0x00,
@@ -111,12 +117,15 @@ static const UInt32 rtl8225_chan[] = {
 static const UInt8 rtl8225z2_tx_power_cck_ch14[] = {
 	0x36, 0x35, 0x2e, 0x1b, 0x00, 0x00, 0x00, 0x00
 };
+
 static const UInt8 rtl8225z2_tx_power_cck[] = {
 	0x36, 0x35, 0x2e, 0x25, 0x1c, 0x12, 0x09, 0x04
 };
+
 /*static const UInt8 rtl8225z2_tx_power_ofdm[] = {
 	0x42, 0x00, 0x40, 0x00, 0x40
 };*/
+
 static const UInt8 rtl8225z2_tx_gain_cck_ofdm[] = {
 	0x00, 0x01, 0x02, 0x03, 0x04, 0x05,
 	0x06, 0x07, 0x08, 0x09, 0x0a, 0x0b,
@@ -125,6 +134,7 @@ static const UInt8 rtl8225z2_tx_gain_cck_ofdm[] = {
 	0x18, 0x19, 0x1a, 0x1b, 0x1c, 0x1d,
 	0x1e, 0x1f, 0x20, 0x21, 0x22, 0x23
 };
+
 static const UInt16 rtl8225z2_rxgain[] = {
 	0x0400, 0x0401, 0x0402, 0x0403, 0x0404, 0x0405, 0x0408, 0x0409,
 	0x040a, 0x040b, 0x0502, 0x0503, 0x0504, 0x0505, 0x0540, 0x0541,
@@ -139,6 +149,7 @@ static const UInt16 rtl8225z2_rxgain[] = {
 	0x03aa, 0x03ab, 0x03ac, 0x03ad, 0x03b0, 0x03b1, 0x03b2, 0x03b3,
 	0x03b4, 0x03b5, 0x03b8, 0x03b9, 0x03ba, 0x03bb, 0x03bb
 };
+
 static const UInt8 rtl8225z2_gain_bg[] = {
 	0x23, 0x15, 0xa5, /* -82-1dBm */
 	0x23, 0x15, 0xb5, /* -82-2dBm */
@@ -149,7 +160,8 @@ static const UInt8 rtl8225z2_gain_bg[] = {
 	0x63, 0x15, 0xc5  /* -66dBm */
 };
 
-static void eeprom_93cx6_pulse_high(struct eeprom_93cx6 *eeprom) {
+static void eeprom_93cx6_pulse_high(struct eeprom_93cx6 *eeprom)
+{
 	eeprom->reg_data_clock = 1;
 	eeprom->register_write(eeprom);
     
@@ -161,7 +173,9 @@ static void eeprom_93cx6_pulse_high(struct eeprom_93cx6 *eeprom) {
 //	ndelay(450);
 	usleep(1);
 }
-static void eeprom_93cx6_pulse_low(struct eeprom_93cx6 *eeprom) {
+
+static void eeprom_93cx6_pulse_low(struct eeprom_93cx6 *eeprom)
+{
 	eeprom->reg_data_clock = 0;
 	eeprom->register_write(eeprom);
     
@@ -173,7 +187,9 @@ static void eeprom_93cx6_pulse_low(struct eeprom_93cx6 *eeprom) {
 //	ndelay(450);
     usleep(1);
 }
-static void eeprom_93cx6_startup(struct eeprom_93cx6 *eeprom) {
+
+static void eeprom_93cx6_startup(struct eeprom_93cx6 *eeprom)
+{
 	/*
 	 * Clear all flags, and enable chip select.
 	 */
@@ -190,7 +206,9 @@ static void eeprom_93cx6_startup(struct eeprom_93cx6 *eeprom) {
 	eeprom_93cx6_pulse_high(eeprom);
 	eeprom_93cx6_pulse_low(eeprom);
 }
-static void eeprom_93cx6_cleanup(struct eeprom_93cx6 *eeprom) {
+
+static void eeprom_93cx6_cleanup(struct eeprom_93cx6 *eeprom)
+{
 	/*
 	 * Clear chip_select and data_in flags.
 	 */
@@ -205,7 +223,9 @@ static void eeprom_93cx6_cleanup(struct eeprom_93cx6 *eeprom) {
 	eeprom_93cx6_pulse_high(eeprom);
 	eeprom_93cx6_pulse_low(eeprom);
 }
-static void eeprom_93cx6_write_bits(struct eeprom_93cx6 *eeprom, const UInt16 data, const UInt16 count) {
+
+static void eeprom_93cx6_write_bits(struct eeprom_93cx6 *eeprom, const UInt16 data, const UInt16 count)
+{
 	unsigned int i;
     
 	eeprom->register_read(eeprom);
@@ -240,7 +260,9 @@ static void eeprom_93cx6_write_bits(struct eeprom_93cx6 *eeprom, const UInt16 da
 	eeprom->reg_data_in = 0;
 	eeprom->register_write(eeprom);
 }
-static void eeprom_93cx6_read_bits(struct eeprom_93cx6 *eeprom, UInt16 *data, const UInt16 count) {
+
+static void eeprom_93cx6_read_bits(struct eeprom_93cx6 *eeprom, UInt16 *data, const UInt16 count)
+{
 	unsigned int i;
 	UInt16 buf = 0;
     
@@ -276,7 +298,9 @@ static void eeprom_93cx6_read_bits(struct eeprom_93cx6 *eeprom, UInt16 *data, co
     
 	*data = buf;
 }
-void eeprom_93cx6_read(struct eeprom_93cx6 *eeprom, const UInt8 word, UInt16 *data) {
+
+void eeprom_93cx6_read(struct eeprom_93cx6 *eeprom, const UInt8 word, UInt16 *data)
+{
 	UInt16 command;
     
 	/*
@@ -301,7 +325,9 @@ void eeprom_93cx6_read(struct eeprom_93cx6 *eeprom, const UInt8 word, UInt16 *da
 	 */
 	eeprom_93cx6_cleanup(eeprom);
 }
-void eeprom_93cx6_multiread(struct eeprom_93cx6 *eeprom, const UInt8 word, UInt16 *data, const UInt16 words) {
+
+void eeprom_93cx6_multiread(struct eeprom_93cx6 *eeprom, const UInt8 word, UInt16 *data, const UInt16 words)
+{
 	unsigned int i;
 	UInt16 tmp;
     
@@ -315,7 +341,8 @@ void eeprom_93cx6_multiread(struct eeprom_93cx6 *eeprom, const UInt8 word, UInt1
 
 /* rtl818x part */
 
-UInt8 rtl818x_ioread8(struct rtl8187_priv *priv, UInt16 addr) {
+UInt8 rtl818x_ioread8(struct rtl8187_priv *priv, UInt16 addr)
+{
 	UInt8 val;
 
     IOReturn ret;
@@ -333,7 +360,9 @@ UInt8 rtl818x_ioread8(struct rtl8187_priv *priv, UInt16 addr) {
 //    DBNSLog(@"<<< 8 addr %x data %x", addr, val);
     return val;
 }
-UInt16 rtl818x_ioread16(struct rtl8187_priv *priv, UInt16 addr) {
+
+UInt16 rtl818x_ioread16(struct rtl8187_priv *priv, UInt16 addr)
+{
 	UInt16 val;
     
     IOReturn ret;
@@ -351,7 +380,9 @@ UInt16 rtl818x_ioread16(struct rtl8187_priv *priv, UInt16 addr) {
 //    DBNSLog(@"<<< 16 addr %x data %x (%x)", addr, val, CFSwapInt16LittleToHost(val));
 	return CFSwapInt16LittleToHost(val);
 }
-UInt32 rtl818x_ioread32(struct rtl8187_priv *priv, UInt16 addr) {
+
+UInt32 rtl818x_ioread32(struct rtl8187_priv *priv, UInt16 addr)
+{
 	UInt32 val = 0;
     
     IOReturn ret = 0;
@@ -374,7 +405,8 @@ UInt32 rtl818x_ioread32(struct rtl8187_priv *priv, UInt16 addr) {
 	return CFSwapInt32LittleToHost(val);
 }
 
-void rtl818x_iowrite8(struct rtl8187_priv *priv, UInt16 addr, UInt8 val) {
+void rtl818x_iowrite8(struct rtl8187_priv *priv, UInt16 addr, UInt8 val)
+{
     IOReturn ret;
     IOUSBDevRequest theRequest;
     theRequest.bmRequestType = USBmakebmRequestType(kUSBOut, kUSBVendor, kUSBDevice);
@@ -390,7 +422,9 @@ void rtl818x_iowrite8(struct rtl8187_priv *priv, UInt16 addr, UInt8 val) {
     }
     return;
 }
-void rtl818x_iowrite16(struct rtl8187_priv *priv, UInt16 addr, UInt16 val) {
+
+void rtl818x_iowrite16(struct rtl8187_priv *priv, UInt16 addr, UInt16 val)
+{
 	UInt16 buf = CFSwapInt16HostToLittle(val);
     
     IOReturn ret;
@@ -408,7 +442,9 @@ void rtl818x_iowrite16(struct rtl8187_priv *priv, UInt16 addr, UInt16 val) {
     }
     return;
 }
-void rtl818x_iowrite32(struct rtl8187_priv *priv, UInt16 addr, UInt32 val) {
+
+void rtl818x_iowrite32(struct rtl8187_priv *priv, UInt16 addr, UInt32 val)
+{
 	UInt32 buf = CFSwapInt32HostToLittle(val);
     
     IOReturn ret;
@@ -427,7 +463,8 @@ void rtl818x_iowrite32(struct rtl8187_priv *priv, UInt16 addr, UInt32 val) {
     return;
 }
 
-void rtl8187_eeprom_register_read(struct eeprom_93cx6 *eeprom) {
+void rtl8187_eeprom_register_read(struct eeprom_93cx6 *eeprom)
+{
 	struct rtl8187_priv *priv = (struct rtl8187_priv *)(eeprom->data);
 	UInt8 reg = rtl818x_ioread8(priv, RTL818X_ADDR_EEPROM_CMD);
     
@@ -436,7 +473,9 @@ void rtl8187_eeprom_register_read(struct eeprom_93cx6 *eeprom) {
 	eeprom->reg_data_clock = reg & RTL818X_EEPROM_CMD_CK;
 	eeprom->reg_chip_select = reg & RTL818X_EEPROM_CMD_CS;
 }
-void rtl8187_eeprom_register_write(struct eeprom_93cx6 *eeprom) {
+
+void rtl8187_eeprom_register_write(struct eeprom_93cx6 *eeprom)
+{
 	struct rtl8187_priv *priv = (struct rtl8187_priv *)(eeprom->data);
 	UInt8 reg = RTL818X_EEPROM_CMD_PROGRAM;
     
@@ -453,7 +492,8 @@ void rtl8187_eeprom_register_write(struct eeprom_93cx6 *eeprom) {
 	usleep(10);
 }
 
-void rtl8187_write_phy(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
+void rtl8187_write_phy(struct rtl8187_priv *priv, UInt8 addr, UInt32 data)
+{
 	data <<= 8;
 	data |= addr | 0x80;
     
@@ -464,14 +504,18 @@ void rtl8187_write_phy(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
     
 	usleep(1000);
 }
-static void rtl8225_write_phy_ofdm(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
+static void rtl8225_write_phy_ofdm(struct rtl8187_priv *priv, UInt8 addr, UInt32 data)
+{
 	rtl8187_write_phy(priv, addr, data);
 }
-static void rtl8225_write_phy_cck(struct rtl8187_priv *priv, UInt8 addr, UInt32 data) {
+
+static void rtl8225_write_phy_cck(struct rtl8187_priv *priv, UInt8 addr, UInt32 data)
+{
 	rtl8187_write_phy(priv, addr, data | 0x10000);
 }
 
-static void rtl8225_rf_set_tx_power(struct rtl8187_priv *priv, int channel) {
+static void rtl8225_rf_set_tx_power(struct rtl8187_priv *priv, int channel)
+{
 	UInt8 cck_power, ofdm_power;
 	const UInt8 *tmp;
 	UInt32 reg;
@@ -516,7 +560,9 @@ static void rtl8225_rf_set_tx_power(struct rtl8187_priv *priv, int channel) {
     
 	usleep(1000);
 }
-static void rtl8225z2_rf_set_tx_power(struct rtl8187_priv *priv, int channel) {
+
+static void rtl8225z2_rf_set_tx_power(struct rtl8187_priv *priv, int channel)
+{
 	UInt8 cck_power, ofdm_power;
 	const UInt8 *tmp;
 	UInt32 reg;
@@ -562,7 +608,8 @@ static void rtl8225z2_rf_set_tx_power(struct rtl8187_priv *priv, int channel) {
 	usleep(1000);
 }
 
-static void rtl8225_write_8051(struct rtl8187_priv *priv, UInt8 addr, UInt16 data) {
+static void rtl8225_write_8051(struct rtl8187_priv *priv, UInt8 addr, UInt16 data)
+{
 	UInt16 reg80, reg82, reg84;
 	reg80 = rtl818x_ioread16(priv, RTL818X_ADDR_RFPinsOutput);
 	reg82 = rtl818x_ioread16(priv, RTL818X_ADDR_RFPinsEnable);
@@ -606,7 +653,9 @@ static void rtl8225_write_8051(struct rtl8187_priv *priv, UInt8 addr, UInt16 dat
 //    DBNSLog(@"%s:%d %x %x %x", __func__, __LINE__, reg80, reg82, reg84);
 	usleep(2000);
 }
-static void rtl8225_write_bitbang(struct rtl8187_priv *priv, UInt8 addr, UInt16 data) {
+
+static void rtl8225_write_bitbang(struct rtl8187_priv *priv, UInt8 addr, UInt16 data)
+{
 	UInt16 reg80, reg84, reg82;
 	UInt32 bangdata;
 	int i;
@@ -647,14 +696,17 @@ static void rtl8225_write_bitbang(struct rtl8187_priv *priv, UInt8 addr, UInt16 
 	rtl818x_iowrite16(priv, RTL818X_ADDR_RFPinsSelect, reg84);
 	usleep(2);
 }
-void rtl8225_write(struct rtl8187_priv *priv, UInt8 addr, UInt16 data) {
+
+void rtl8225_write(struct rtl8187_priv *priv, UInt8 addr, UInt16 data)
+{
 	if (priv->asic_rev)
         rtl8225_write_8051(priv, addr, CFSwapInt16HostToLittle(data));
 	else
 		rtl8225_write_bitbang(priv, addr, data);
 }
 
-UInt16 rtl8225_read(struct rtl8187_priv *priv, UInt8 addr) {
+UInt16 rtl8225_read(struct rtl8187_priv *priv, UInt8 addr)
+{
 	UInt16 reg80, reg82, reg84, out;
 	int i;
     
@@ -728,7 +780,8 @@ UInt16 rtl8225_read(struct rtl8187_priv *priv, UInt8 addr) {
 	return out;
 }
 
-void rtl8225_rf_init(struct rtl8187_priv *priv) {
+void rtl8225_rf_init(struct rtl8187_priv *priv)
+{
 	unsigned int i;
 //    DBNSLog(@"rf_init");
 	rtl8225_write(priv, 0x0, 0x067); usleep(1000);
@@ -871,7 +924,9 @@ void rtl8225_rf_init(struct rtl8187_priv *priv) {
 	rtl8225_write_phy_ofdm(priv, 0x23, rtl8225_gain[2 * 4 + 1]);
 	rtl8225_write_phy_cck(priv, 0x41, rtl8225_threshold[2]);
 }
-void rtl8225z2_rf_init(struct rtl8187_priv *priv) {
+
+void rtl8225z2_rf_init(struct rtl8187_priv *priv)
+{
 	unsigned int i;
     
 	rtl8225_write(priv, 0x0, 0x2BF); usleep(1000);
@@ -1016,7 +1071,8 @@ void rtl8225z2_rf_init(struct rtl8187_priv *priv) {
 	rtl818x_iowrite32(priv, 0xFF94, 0x3dc00002);
 }
 
-static int rtl8187_init_hw(struct rtl8187_priv *priv) {
+static int rtl8187_init_hw(struct rtl8187_priv *priv)
+{
 	UInt8 reg;
 	int i;
     
@@ -1140,7 +1196,9 @@ static int rtl8187_init_hw(struct rtl8187_priv *priv) {
     
 	return 0;
 }
-void rtl8225_rf_stop(struct rtl8187_priv *priv) {
+
+void rtl8225_rf_stop(struct rtl8187_priv *priv)
+{
 	UInt8 reg;
     
 	rtl8225_write(priv, 0x4, 0x1f); usleep(1000);
@@ -1154,7 +1212,8 @@ void rtl8225_rf_stop(struct rtl8187_priv *priv) {
 	rtl818x_iowrite8(priv, RTL818X_ADDR_EEPROM_CMD, RTL818X_EEPROM_CMD_NORMAL);
 }
 
-void rtl8225_rf_set_channel(struct rtl8187_priv *priv, int channel) {
+void rtl8225_rf_set_channel(struct rtl8187_priv *priv, int channel)
+{
 	if (priv->rf_init == rtl8225_rf_init)
 		rtl8225_rf_set_tx_power(priv, channel);
 	else
@@ -1164,7 +1223,8 @@ void rtl8225_rf_set_channel(struct rtl8187_priv *priv, int channel) {
 	usleep(10000);
 }
 
-static void rtl8187_set_channel(struct rtl8187_priv *priv, int channel) {
+static void rtl8187_set_channel(struct rtl8187_priv *priv, int channel)
+{
 	UInt32 reg;
     
 	reg = rtl818x_ioread32(priv, RTL818X_ADDR_TX_CONF);
@@ -1179,7 +1239,8 @@ static void rtl8187_set_channel(struct rtl8187_priv *priv, int channel) {
 	rtl818x_iowrite32(priv, RTL818X_ADDR_TX_CONF, reg);
 }
 
-static int rtl8187_start(struct rtl8187_priv *priv) {
+static int rtl8187_start(struct rtl8187_priv *priv)
+{
 	UInt32 reg;
 	int ret;
     
@@ -1191,8 +1252,6 @@ static int rtl8187_start(struct rtl8187_priv *priv) {
     
 	rtl818x_iowrite32(priv, RTL818X_ADDR_MAR0, ~0);
 	rtl818x_iowrite32(priv, RTL818X_ADDR_MAR1, ~0);
-    
-//	rtl8187_init_urbs(dev);
     
 	reg = RTL818X_RX_CONF_ONLYERLPKT |
     RTL818X_RX_CONF_RX_AUTORESETPHY |
@@ -1231,7 +1290,9 @@ static int rtl8187_start(struct rtl8187_priv *priv) {
     
 	return 0;
 }
-static void rtl8187_stop(struct rtl8187_priv *priv) {
+
+static void rtl8187_stop(struct rtl8187_priv *priv)
+{
 	UInt32 reg;
     
 	rtl818x_iowrite16(priv, RTL818X_ADDR_INT_MASK, 0);
@@ -1256,79 +1317,43 @@ char *RTL8187Jack::getPlistFile()
     return (char*)"UsbVendorsRTL8187";
 }
 
-IOReturn RTL8187Jack::_init() {
-    DBNSLog(@"_init");
+IOReturn RTL8187Jack::_init()
+{
+    DBNSLog(@"RTL8187Jack::_init");
 
 	NICInitialized = false;
     
     if(!_attachDevice()){
-        DBNSLog(@"Device could not be opened");
+        DBNSLog(@"RTL8187Jack::Device could not be opened");
         return kIOReturnNoDevice;
     }
+
     // Allocate _priv;
     _priv = (struct rtl8187_priv *)malloc(sizeof(struct rtl8187_priv));
     bzero(_priv, sizeof(struct rtl8187_priv));
 
+    _lockDevice();
     rtl8187_probe();
     NICInitialized = true;
     _deviceInit = true;
-    DBNSLog(@"_init exit");
+    _unlockDevice();
+
+    DBNSLog(@"RTL8187Jack::_init exit");
     return kIOReturnSuccess;
 }
 
-int  RTL8187Jack::rtl8187_probe(void) {
-//	struct usb_device *udev = interface_to_usbdev(intf);
-//	struct ieee80211_hw *dev;
+int  RTL8187Jack::rtl8187_probe(void)
+{
 	struct rtl8187_priv *priv = _priv;
 	struct eeprom_93cx6 eeprom;
 	struct ieee80211_channel *channel;
 	UInt16 txpwr, reg;
 	int i;
-//	DECLARE_MAC_BUF(mac);
     
-//	dev = ieee80211_alloc_hw(sizeof(*priv), &rtl8187_ops);
-//	if (!dev) {
-//		printk(KERN_ERR "rtl8187: ieee80211 alloc failed\n");
-//		return -ENOMEM;
-//	}
-    
-//	priv = dev->priv;
-    
-//	SET_IEEE80211_DEV(dev, &intf->dev);
-//	usb_set_intfdata(intf, dev);
 	priv->_interface = _interface;
     
-//	usb_get_dev(udev);
-    
-//	skb_queue_head_init(&priv->rx_queue);
-
 	memcpy(priv->channels, rtl818x_channels, sizeof(rtl818x_channels));
-//	memcpy(priv->rates, rtl818x_rates, sizeof(rtl818x_rates));
-	priv->map = (struct rtl818x_csr *)0xFF00;
-
-//	priv->modes[0].mode = MODE_IEEE80211G;
-//	priv->modes[0].num_rates = ARRAY_SIZE(rtl818x_rates);
-//	priv->modes[0].rates = priv->rates;
-//	priv->modes[0].num_channels = ARRAY_SIZE(rtl818x_channels);
-//	priv->modes[0].channels = priv->channels;
-	
-//    priv->modes[1].mode = MODE_IEEE80211B;
-//	priv->modes[1].num_rates = 4;
-//	priv->modes[1].rates = priv->rates;
-//	priv->modes[1].num_channels = ARRAY_SIZE(rtl818x_channels);
-//	priv->modes[1].channels = priv->channels;
-	
-//    priv->mode = IEEE80211_IF_TYPE_MNTR;
-//	dev->flags = IEEE80211_HW_HOST_BROADCAST_PS_BUFFERING | IEEE80211_HW_RX_INCLUDES_FCS;
-	
-//    dev->extra_tx_headroom = sizeof(struct rtl8187_tx_hdr);
-//	dev->queues = 1;
-//	dev->max_rssi = 65;
-//	dev->max_signal = 64;
-    
-//	for (i = 0; i < 2; i++)
-//		if ((err = ieee80211_register_hwmode(dev, &priv->modes[i])))
-//			goto err_free_dev;
+    priv->map = (struct rtl818x_csr *)0xFF00;
     
 	eeprom.data = priv;
 	eeprom.register_read = rtl8187_eeprom_register_read;
@@ -1344,11 +1369,6 @@ int  RTL8187Jack::rtl8187_probe(void) {
     eeprom_93cx6_multiread(&eeprom, RTL8187_EEPROM_MAC_ADDR, perm_addr, 3);
 
     DBNSLog(@"%.4x%.4x%.4x", perm_addr[0], perm_addr[1], perm_addr[2]);
-//	if (!is_valid_ether_addr(dev->wiphy->perm_addr)) {
-//		printk(KERN_WARNING "rtl8187: Invalid hwaddr! Using randomly "
-//		       "generated MAC address\n");
-//		random_ether_addr(dev->wiphy->perm_addr);
-//	}
     
 	channel = priv->channels;
 	for (i = 0; i < 3; ++i) {
@@ -1400,12 +1420,19 @@ int  RTL8187Jack::rtl8187_probe(void) {
 
     return 0;
 }
-bool RTL8187Jack::setChannel(UInt16 channel) {
+
+bool RTL8187Jack::setChannel(UInt16 channel)
+{
+    _lockDevice();
     rtl8187_set_channel(_priv, channel);
     _channel = channel;
-    return YES;
+    _unlockDevice();
+
+    return true;
 }
-bool RTL8187Jack::getAllowedChannels(UInt16* channels) {
+
+bool RTL8187Jack::getAllowedChannels(UInt16* channels)
+{
     if (!_devicePresent) return false;
     if (!_deviceInit) return false;
     
@@ -1414,34 +1441,48 @@ bool RTL8187Jack::getAllowedChannels(UInt16* channels) {
     return true;
 }
 
-bool RTL8187Jack::startCapture(UInt16 channel) {
-    DBNSLog(@"Start capture");
-	if (NICInitialized) {
-        //		DBNSLog(@"Done.\n");
+bool RTL8187Jack::startCapture(UInt16 channel)
+{
+    DBNSLog(@"RTL8187Jack: Start capture");
+	if (NICInitialized)
+    {
+        _lockDevice();
         rtl8187_start(_priv);
-        setChannel(channel);
+        rtl8187_set_channel(_priv, channel);
+        _unlockDevice();
 		return true;
 	}
-	else {
-        //		DBNSLog(@"NIC not initialized. Canceled.\n");
-		return false;
-	}
-}
-bool RTL8187Jack::stopCapture() {
-    //	DBNSLog(@"Stop capture : ");
-	if (NICInitialized) {
-        //		DBNSLog(@"Done.\n");
-        rtl8187_stop(_priv);
-		return true;
-	}
-	else {
-        //		DBNSLog(@"NIC not initialized. Canceled.\n");
-		return false;
-	}
+	
+    DBNSLog(@"RTL8187Jack: Ignoring start capture!");
+    return false;
 }
 
-bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
+bool RTL8187Jack::stopCapture()
+{
+    DBNSLog(@"RTL8187Jack: Stop capture");
+	if (NICInitialized)
+    {
+        _lockDevice();
+        rtl8187_stop(_priv);
+        _unlockDevice();
+
+		return true;
+	}
     
+    DBNSLog(@"RTL8187Jack: Ignoring stop capture!");
+	return false;
+}
+
+void RTL8187Jack::_rawFrameReceived(unsigned int len)
+{
+    // _receiveBuffer has the raw 802.11 frame with an rtl8187_rx_hdr appended,
+    // so we just queue the whole thing.  See also: USBJack::_rawFrameReceived().
+    // We get to dissect it in _massagePacket() after it is dequeued.
+    insertFrameIntoQueue(&_receiveBuffer, len, _channel);
+}
+
+bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len, UInt16 channel)
+{
     unsigned char* pData = (unsigned char *)inBuf;    
     KFrame *pFrame = (KFrame *)outBuf;
     
@@ -1457,10 +1498,11 @@ bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
     hdr = (struct rtl8187_rx_hdr *)(pData + (len-sizeof(struct rtl8187_rx_hdr)));
     flags = CFSwapInt32LittleToHost(hdr->flags);
 	if (flags & (1 << 13)) {
-//        DBNSLog(@"Bad CRC\n");
+        // Never seen this with the curent settings...
+        // DBNSLog(@"Bad CRC\n");
         return false;
     }
-    pFrame->ctrl.len = (flags & 0xFFF) - 4;
+    pFrame->ctrl.len = (flags & 0xFFF) - 4; // Presumably -4 for FCS
     pFrame->ctrl.rate = (flags >> 20) & 0xF;
 	signal = hdr->agc >> 1;
 	if (pFrame->ctrl.rate > 3) {	/* OFDM rate */
@@ -1478,17 +1520,16 @@ bool RTL8187Jack::_massagePacket(void *inBuf, void *outBuf, UInt16 len) {
 	}
     pFrame->ctrl.signal = (UInt8)((100.0 / 65.0) * signal);
     pFrame->ctrl.silence = 0;
+    pFrame->ctrl.channel = channel;
 
-//    dumpFrame(pData, len);
-            
     // Copy entire packet
     memcpy(pFrame->data, pData, pFrame->ctrl.len);
     
-    //	dumpFrame(frame.data, len);
 	return true;
 }
 
-int RTL8187Jack::WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate) {
+int RTL8187Jack::WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate)
+{
     struct rtl8187_tx_hdr *hdr = (struct rtl8187_tx_hdr *)(theFrame);
     memset(hdr, 0, sizeof(struct rtl8187_tx_hdr));
     UInt32 flags = length;
@@ -1505,7 +1546,8 @@ int RTL8187Jack::WriteTxDescriptor(void* theFrame, UInt16 length, UInt8 rate) {
     return sizeof(struct rtl8187_tx_hdr);
 }
 
-bool RTL8187Jack::sendKFrame(KFrame* frame) {
+bool RTL8187Jack::sendKFrame(KFrame* frame)
+{
     UInt8 aData[MAX_FRAME_BYTES];
     unsigned int descriptorLength;
     //    DBNSLog(@"sendKFrame %d", size);
@@ -1518,7 +1560,8 @@ bool RTL8187Jack::sendKFrame(KFrame* frame) {
     return YES;
 }
 
-IOReturn RTL8187Jack::_sendFrame(UInt8* data, IOByteCount size) {
+IOReturn RTL8187Jack::_sendFrame(UInt8* data, IOByteCount size)
+{
     UInt32      numBytes;
     IOReturn    kr;
     
@@ -1529,26 +1572,21 @@ IOReturn RTL8187Jack::_sendFrame(UInt8* data, IOByteCount size) {
         return kIOReturnError;
     }
     
-//    DBNSLog(@"RT73Jack::_sendFrame");
-//    dumpFrame(data, size);
-    
     _lockDevice();
-    
     memcpy(&_outputBuffer, data, size);
-
-//    numBytes =  (((size)+63)&~63);
     numBytes = size;
-//    DBNSLog(@"NumBytes %d", numBytes);
     kr = (*_interface)->WritePipe(_interface, 3, &_outputBuffer, numBytes);
+    _unlockDevice();
+
     if (kr) {
         DBNSLog(@"kr %x", kr);
     }
-    _unlockDevice();
     
     return kr;
 }
 
-void RTL8187Jack::dumpFrame(UInt8 *data, UInt16 size) {
+void RTL8187Jack::dumpFrame(UInt8 *data, UInt16 size)
+{
     DBNSLog(@"--FRAME LENGTH %d--", size);
     int idx = 0;
     int i,j;
@@ -1565,7 +1603,10 @@ void RTL8187Jack::dumpFrame(UInt8 *data, UInt16 size) {
     }
 }
 
-RTL8187Jack::RTL8187Jack() {
+RTL8187Jack::RTL8187Jack()
+{
 }
-RTL8187Jack::~RTL8187Jack() {
+
+RTL8187Jack::~RTL8187Jack()
+{
 }
